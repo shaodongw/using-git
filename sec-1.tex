@@ -104,6 +104,7 @@ git diff
 git reset --hard
 \end{Verbatim}
 注意：刚才所修改的内容都丢弃了
+\end{frame}
 
 \begin{frame}[<+->][fragile]{另辟蹊径}
 \onslide<+->
@@ -122,16 +123,112 @@ vi main.c
 vi common.c
 \end{Verbatim}
 
-新增
+\onslide<+->
+把修改过的文件提交到仓库
 \begin{Verbatim}[frame=single,commandchars=\\\{\}]
-vi function.c
+git add main.c
+git add common.c
+git commit -m 'Some function is added.'
+\end{Verbatim}
+
+这是在新的分支上的一个提交，不影响原来的分支。
+\end{frame}
+
+\begin{frame}
+    \includegraphics<1>[width=7cm]{figure/setup-new-branch.png}
+    \includegraphics<2>[width=8cm]{figure/setup-new-branch-2.png}
+    \includegraphics<3>[width=8cm]{figure/setup-new-branch-3.png}
+\end{frame}
+
+\begin{frame}[fragile]{提交命令的变化}
+刚才的命令
+\onslide<+->
+\begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git add main.c
+git add common.c
+git commit -m 'Some function is added.'
 \end{Verbatim}
 
 \onslide<+->
-忘记了修改过哪些文件。并非要把所有修改过的文件都提交到仓库。
+这等同于
 \begin{Verbatim}[frame=single,commandchars=\\\{\}]
-git status
-git diff
-git add common.c common.h
-git commit -m 'Two files common.[ch] are added.'
+git commit -a -m 'Some function is added.'
 \end{Verbatim}
+\end{frame}
+
+\begin{frame}[<+->][fragile]{在编辑器中输入提交注释}
+\onslide<+->
+提交时的注释很重要，也可以不在命令行中输入，而是在一个编辑器中输入。
+\begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git commit
+\end{Verbatim}
+
+\onslide<+->
+缺省编辑器的配置
+\begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git config --global core.editor vim
+\end{Verbatim}
+\end{frame}
+
+\begin{frame}[<+->][fragile]{切换分支}
+\onslide<+->
+你正在newfeature分支上工作。临时要处理master分支中的一个问题。
+当前工作先提交
+\begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git commit -a
+\end{Verbatim}
+
+\onslide<+->
+切换分支
+\begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git checkout master
+\(\cdots\)
+git commit -a
+\end{Verbatim}
+
+\onslide<+->
+切换回来
+\begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git checkout newfeature
+\(\cdots\)
+git commit -a
+\end{Verbatim}
+\end{frame}
+
+\begin{frame}[<+->][fragile]{分支合并}
+\onslide<+->
+经过一段时间的修改，你认为你的newfeature分支已经做的不错。可以合并到master分支中来了。
+\begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git checkout master
+\end{Verbatim}
+
+\onslide<+->
+\begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git merge newfuture
+\end{Verbatim}
+
+一切顺利的话，就会自动产生一个合并后的新提交。
+\end{frame}
+
+\begin{frame}
+    \includegraphics<1>[width=9cm]{figure/merge-1.png}
+    \includegraphics<2>[width=9cm]{figure/merge-2.png}
+\end{frame}
+
+\begin{frame}[fragile]{解决合并时的冲突}
+合并产生冲突时，会出现冲突提示。
+
+这时需要手工解决冲突，然后提交
+\begin{Verbatim}[frame=single,commandchars=\\\{\}]
+vim main.c
+\(\cdots\)
+git add main.c
+git commit
+\end{Verbatim}
+\end{frame}
+
+\begin{frame}
+    \includegraphics<1>[width=9cm]{figure/resolve-conflict-1.png}
+    \includegraphics<2>[width=9cm]{figure/resolve-conflict-2.png}
+    \includegraphics<3>[width=9cm]{figure/resolve-conflict-2.png}
+\end{frame}
