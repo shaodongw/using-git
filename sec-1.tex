@@ -51,4 +51,87 @@ git commit -m 'The first of first commit.'
 \end{Verbatim}
 \end{frame}
 
+\begin{frame}[<+->][fragile]{修改与提交}
+\onslide<+->
+修改一些内容
+\begin{Verbatim}[frame=single,commandchars=\\\{\}]
+vi main.c
+\end{Verbatim}
 
+\onslide<+->
+查看状态，提交修改
+\begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git status
+git commit -a -m 'Loop 70 times, then exit.'
+\end{Verbatim}
+\end{frame}
+
+\begin{frame}[<+->][fragile]{增加文件}
+\onslide<+->
+增加两个文件
+\begin{Verbatim}[frame=single,commandchars=\\\{\}]
+vi common.c
+vi common.h
+\end{Verbatim}
+
+\onslide<+->
+加到Git仓库中
+\begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git status
+git add common.c common.h
+git commit -m 'Two files common.[ch] are added.'
+\end{Verbatim}
+\end{frame}
+
+\begin{frame}[<+->][fragile]{重新来过}
+\onslide<+->
+继续修改文件
+\begin{Verbatim}[frame=single,commandchars=\\\{\}]
+vi main.c
+vi common.c
+\end{Verbatim}
+
+\onslide<+->
+忘记了修改过哪些文件
+\begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git status
+git diff
+\end{Verbatim}
+
+\onslide<+->
+反而改乱了，想回到上次提交时的状态
+\begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git reset --hard
+\end{Verbatim}
+注意：刚才所修改的内容都丢弃了
+
+\begin{frame}[<+->][fragile]{另辟蹊径}
+\onslide<+->
+想给当前的项目增加新功能，有不想影响正在进行的工作
+\begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git branch newfeature
+git checkout newfeature
+\end{Verbatim}
+
+已经另建了一个分支，并且转移到新的分支上。
+
+\onslide<+->
+修改
+\begin{Verbatim}[frame=single,commandchars=\\\{\}]
+vi main.c
+vi common.c
+\end{Verbatim}
+
+新增
+\begin{Verbatim}[frame=single,commandchars=\\\{\}]
+vi function.c
+\end{Verbatim}
+
+\onslide<+->
+忘记了修改过哪些文件。并非要把所有修改过的文件都提交到仓库。
+\begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git status
+git diff
+git add common.c common.h
+git commit -m 'Two files common.[ch] are added.'
+\end{Verbatim}
