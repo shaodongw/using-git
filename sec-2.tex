@@ -1,0 +1,32 @@
+\part{更熟悉一点Git的使用}
+\begin{frame}[<+->][fragile]{分支/合并是Git的核心能力}
+    \begin{itemize}
+        \item 新建分支，切换分支，很容易
+\begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git branch newfeature
+git checkout newfeature
+\end{Verbatim}
+        \item 两步合一步
+\begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git checkout -b newfeature            
+\end{Verbatim}
+        \item 新建分支不是大事儿
+        \item 习惯的做法：
+
+新建临时分支并切换到那里，修改代码，提交，再修改，再提交 \(\ldots\) 回到原分支，将临时分支合并过来，删除 \(\ldots\)临时分支
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \includegraphics<1>[width=9cm]{figure/branch-merge-cycle-1.png}
+    \includegraphics<2>[width=9cm]{figure/branch-merge-cycle-1-G.png}
+    \includegraphics<3>[width=9cm]{figure/branch-merge-cycle-1-H.png}
+    \includegraphics<4>[width=9cm]{figure/branch-merge-cycle-1-I.png}
+    \includegraphics<5>[width=9cm]{figure/branch-merge-cycle-1-J.png}
+    \includegraphics<6>[width=9cm]{figure/branch-merge-cycle-1-K.png}
+    \includegraphics<7>[width=9cm]{figure/branch-merge-cycle-1-L.png}
+    \includegraphics<8>[width=9cm]{figure/branch-merge-cycle-2.png}
+    \includegraphics<9>[width=9cm]{figure/branch-merge-cycle-3.png}
+    \includegraphics<10>[width=9cm]{figure/branch-merge-cycle-4.png}
+\end{frame}
+

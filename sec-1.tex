@@ -10,7 +10,7 @@
 \end{itemize}
 \end{frame}
 
-\part{独自使用Git的情景}
+\part{使用Git的基本情景}
 \begin{frame}[<+->][fragile]{安装Git}
 \begin{itemize}
   \item Linux下的安装
@@ -106,7 +106,7 @@ git reset --hard
 注意：刚才所修改的内容都丢弃了
 \end{frame}
 
-\begin{frame}[<+->][fragile]{另辟蹊径}
+\begin{frame}[<+->][fragile]{另辟蹊径：新建分支}
 \onslide<+->
 想给当前的项目增加新功能，有不想影响正在进行的工作
 \begin{Verbatim}[frame=single,commandchars=\\\{\}]
@@ -232,3 +232,18 @@ git commit
     \includegraphics<2>[height=6cm]{figure/resolve-conflict-2.png}
     \includegraphics<3>[height=7cm]{figure/resolve-conflict-3.png}
 \end{frame}
+
+\begin{frame}{小结}
+人们在使用Git作为源代码控制的情况，绝大多数工作流程如下：
+    \begin{itemize}
+        \item 修改代码 \(\ldots\) 提交修改 \(\ldots\)
+        \item 创建分支，切换分支
+        \item 修改代码 \(\ldots\) 提交修改 \(\ldots\)
+        \item 切换分支
+        \item 修改代码 \(\ldots\) 提交修改 \(\ldots\)
+        \item 切换分支
+        \item 合并分支
+        \item \(\ldots\)
+    \end{itemize}
+\end{frame}
+
