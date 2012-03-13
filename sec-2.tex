@@ -30,3 +30,14 @@ git checkout -b newfeature
     \includegraphics<10>[width=9cm]{figure/branch-merge-cycle-4.png}
 \end{frame}
 
+\begin{frame}[<+->][fragile]{删除分支}
+    \begin{itemize}
+        \item 删除分支，很容易
+\begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git branch -d newfeature
+\end{Verbatim}
+        \item 只有已经合并的分支才能删除
+        \item 删除分支不是大事儿
+    \end{itemize}
+\end{frame}
+
