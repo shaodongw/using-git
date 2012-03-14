@@ -1,0 +1,101 @@
+\part{多人协同工作}
+\begin{frame}[<+->][fragile]{远程仓库与本地仓库}
+\begin{itemize}
+  \item 本地仓库
+  \item 远程仓库
+  \item 克隆操作
+\begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git clone ssh://example.com/git/our-project.git
+\end{Verbatim}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[<+->][fragile]{仓库里有什么}
+\begin{itemize}
+  \item 一旦在本地得到仓库的副本，一切操作就都在本地运行
+\begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git log
+\end{Verbatim}
+  \item 可以看到所有的提交历史，都被复制过来。
+  \item 自动为你建立工作目录，缺省的分支是master
+\end{itemize}
+\end{frame}
+
+\begin{frame}[<+->][fragile]{你的工作情景}
+    \begin{itemize}
+        \item 先建一个临时分支，并切换到那里
+        \item 修改代码 \(\ldots\) 提交修改 \(\ldots\)
+        \item 修改代码 \(\ldots\) 提交修改 \(\ldots\)
+        \item 切换回主要工作分支（可以是master，但也未必）
+        \item 把临时分支合并过来
+        \item 删除原来的临时分支（或者把工作分支反过来合并到临时分支，在临时分支上继续工作）
+        \item \(\ldots\)
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[<+->][fragile]{本地仓库推出去}
+\onslide<+->
+你所做的改动，统统提交到你本地的仓库，别人如何知晓？
+\begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git push
+\end{Verbatim}
+
+\onslide<+->
+如果自你上次和远程仓库同步以后，没有别人改动过远程的仓库，你的push不会遇到问题。
+反之，推操作会失败。
+\end{frame}
+
+\begin{frame}[<+->][fragile]{合并远程仓库里的变更到本地}
+\begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git fetch
+git merge
+\end{Verbatim}
+
+\onslide<+->
+或者，合成一步
+\begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git pull
+\end{Verbatim}
+\end{frame}
+
+\begin{frame}[<+->][fragile]{先听再说}
+\onslide<+->
+git的逻辑是，合并永远不在远程仓库一端进行。
+必须到某个人的本地仓库，由他合并之后，再推倒
+远程。
+\onslide<+->
+如果本地合并一切顺利，合并之后，再次运行
+\begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git push
+\end{Verbatim}
+\onslide<+->
+如果合并出现冲突，解决冲突，提交改变到本地仓库，再推到远程。
+\end{frame}
+
+\begin{frame}[<+->][fragile]{分布式管理的体现}
+\onslide<+->
+git允许使用多个远程仓库。使用克隆命令时，自动为你指明一个名为origin的远程仓库。
+以后可以再添加、删除、修改远程仓库。
+\begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git remote 
+git remote add github git://github.com/xxx/yyy.git
+git remove
+git rename
+\end{Verbatim}
+
+\onslide<+->
+指明远程仓库名的操作
+\begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git push github
+git push github testbranch
+git fetch github
+\end{Verbatim}
+\end{frame}
+
+\begin{frame}[<+->][fragile]{平等}
+\onslide<+->
+理论上，没有那个仓库更高贵。
+
+\onslide<+->
+事实上，人们会将某些仓库理解成“正宗的”
+\end{frame}

@@ -1,5 +1,4 @@
-sec-1.aux
-sec-2.aux
+sec-*.aux
 using-git.aux
 using-git.log
 using-git.nav
