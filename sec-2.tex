@@ -41,3 +41,97 @@ git branch -d newfeature
     \end{itemize}
 \end{frame}
 
+\begin{frame}[<+->][fragile]{提交的历史}
+    \begin{itemize}
+        \item 每一次提交都被保存在仓库中，用一串sha1校验和表示
+        \item 观察每一次的提交：
+\begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git log
+\end{Verbatim}
+        \item 或者
+\begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git log --pretty=oneline
+\end{Verbatim}
+        \item 分别得到这样的结果
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[<+->][fragile]{}
+    \begin{itemize}
+        \item 分别得到这样的结果
+\begin{Verbatim}[frame=single,commandchars=\\\{\}]
+commit 81f5046656fc04665f7a5224cc07cfbbdb14baf6
+Author: Wang Shaodong <wsd@wsd-hp>
+Date:   Wed Mar 14 07:10:36 2012 +0800
+
+    remove a branch
+
+commit 1a3a3437775f20b1caa6dfa41d22539a17db542e
+Author: Wang Shaodong <wsd@wsd-hp>
+Date:   Wed Mar 14 07:03:44 2012 +0800
+
+    file .gitignore is added
+\end{Verbatim}
+
+        \item 或者
+
+\begin{Verbatim}[frame=single,commandchars=\\\{\}]
+81f5046656fc04665f7a5224cc07cfbbdb14baf6 remove a branch
+1a3a3437775f20b1caa6dfa41d22539a17db542e file .gitignore is added
+236c0268eaddc68c8a03a867a482a56317f2649a branch-merge-cycle
+533e3140bffee43b02c5648c8fcc3e63232739a6 fix a bug on figure resolve-conflict
+\end{Verbatim}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[<+->][fragile]{标识每一个提交}
+    \begin{itemize}
+        \item 绝对提交名：533e3140bffee43b02c5648c8fcc3e63232739a6
+        \item 绝对提交名的简写：533e31
+        \item 参照名：remotes/origin/master, newfeature
+        \item 符号参照名：\verb|HEAD, ORIG_HEAD, FETCH_HEAD, MERGE_HEAD|
+        \item 相对提交名：\verb|master^, master^^, master~2, master~10^2|
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \includegraphics<1>[width=9cm]{figure/commit-relative-name-1.png}
+    \includegraphics<2>[width=9cm]{figure/commit-relative-name-2.png}
+    \includegraphics<3>[width=9cm]{figure/commit-relative-name-3.png}
+    \includegraphics<4>[width=9cm]{figure/commit-relative-name-4.png}
+    \includegraphics<5>[width=9cm]{figure/commit-relative-name-5.png}
+\end{frame}
+
+\begin{frame}[<+->][fragile]{}
+    \begin{itemize}
+        \item 尝试
+\begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git rev-parse master
+\end{Verbatim}
+        \item 再尝试
+\begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git show-branch --more=35 --all
+\end{Verbatim}
+        \item 还可以试试
+\begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git rev-parse master~3
+\end{Verbatim}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[<+->][fragile]{穿越：回到从前}
+    \begin{itemize}
+        \item 要检查某个历史上的版本
+\begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git checkout 533e31
+\end{Verbatim}
+        \item 或者
+\begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git checkout master~3
+\end{Verbatim}
+        \item 还可以试试
+\begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git rev-parse master~3
+\end{Verbatim}
+    \end{itemize}
+\end{frame}
