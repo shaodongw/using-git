@@ -261,6 +261,9 @@ draw=black,
 start chain,node distance=8mm, every node/.style={on chain,join}, every join/.style={<-}
 ]
 \node [commit] {C1};
+    \begin{scope}[start branch=tip]
+    \node (tip) [on chain=going above, node distance=3mm] {master};
+    \end{scope}
 \node [commit] {C2};
 \node [commit] {C3};
     \begin{scope}[start branch=plus]
