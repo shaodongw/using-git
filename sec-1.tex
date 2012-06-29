@@ -1,3 +1,4 @@
+\iffalse
 \part{源代码管理}
 \begin{frame}[<+->]{引子}
 \begin{itemize}
@@ -247,3 +248,26 @@ git commit
     \end{itemize}
 \end{frame}
 
+\fi
+\begin{frame}
+\begin{tikzpicture}
+[
+nonterminal/.style={
+% The shape:
+rectangle,
+% The size:
+minimum size=6mm,
+% The border:
+very thick,
+draw=red!50!black!50,   % 50% red and 50% black,
+                        % and that mixed with 50% white
+% The filling:
+top color=white,        % a shading that is white at the top...
+bottom color=red!50!black!20, % and something else at the bottom
+% Font
+font=\itshape
+}]
+\node [nonterminal] {unsigned integer};
+
+\end{tikzpicture}
+\end{frame}
