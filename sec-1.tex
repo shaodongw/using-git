@@ -1,17 +1,65 @@
-\iffalse
-\part{源代码管理}
-\begin{frame}[<+->]{引子}
-\begin{itemize}
-  \item 没有源代码管理的世界
-  \item 修订控制/版本管理
-  \item 谁需要源代码管理
-  \item 使用源代码管理的代价
-  \item 使用源代码管理的好处
-  \item 有哪些源代码管理工具
-\end{itemize}
+\part{源代码管理简介}
+
+\begin{frame}[<+->]{源代码管理工具}
+  \begin{itemize}
+    \item 源代码管理工具是什么？
+    \item 我们为什么需要它？
+    \item 不使用源代码管理会怎样？
+    \item 常见的源代码管理工具：CVS，Subversion（SVN），Git
+  \end{itemize}
 \end{frame}
 
-\part{使用Git的基本情景}
+%   \begin{frame}[<+->]{引子}
+%   \begin{itemize}
+%     \item 没有源代码管理的世界
+%     \item 修订控制/版本管理
+%     \item 谁需要源代码管理
+%     \item 使用源代码管理的代价
+%     \item 使用源代码管理的好处
+%     \item 有哪些源代码管理工具
+%   \end{itemize}
+%   \end{frame}
+
+\begin{frame}[<+->]{以Git为例}
+  \begin{itemize}
+    \item Git 是一种完全分布式的源代码管理工具
+    \item Git 的使用非常适合多个线索的并行开发
+    \item Git 仓库存在于每个工作目录当中，天然的备份
+    \item Git 是自由软件，拥有广泛用户基础 
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[<+->]{使用Git所要涉及的几个基本词汇}
+  \begin{itemize}
+    \item 仓库（repository）
+    \item 工作目录（working directory）
+    \item 提交（commit）
+    \item 检出（checkout）
+    \item 分支（branch）
+    \item 合并（merge）
+    \item 日志（log）
+  \end{itemize}
+\end{frame}
+
+\part{Git入门}
+
+\begin{frame}[<+->][fragile]{检查Git是否已安装}
+  \begin{itemize}
+    \item Linux 系统中，使用命令：
+\begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git --version
+\end{Verbatim}
+    \item Windows 系统下，可以看到如下图标：
+        \begin{center}
+            \includegraphics<.->[height=20mm]{figure/git-logo.png}
+            \hspace{10mm}
+            \includegraphics<.->[height=20mm]{figure/msysgit-logo.png}
+        \end{center}
+    \item Mac 系统下（？）
+  \end{itemize}
+\end{frame}
+
+
 \begin{frame}[<+->][fragile]{安装Git}
 \begin{itemize}
   \item Linux下的安装
@@ -21,7 +69,11 @@ sudo apt-get install git-core
 \end{Verbatim}
 
   \item Windows下
-  使用msisgit
+  下载并安装 Git for Windows 或者 msysGit
+
+  %（中文文件名还存在问题）
+  
+  \item Mac下的可选用Git for OS X，或者 GitX
 \end{itemize}
 \end{frame}
 
@@ -38,8 +90,8 @@ git config --global core.quotepash false
 \onslide<+->
 新建一个项目
 \begin{Verbatim}[frame=single,commandchars=\\\{\}]
-mkdir xproj
-cd xproj
+mkdir xprj
+cd xprj
 vi main.c
 \end{Verbatim}
 
@@ -52,6 +104,25 @@ git commit -m 'The first of first commit.'
 \end{Verbatim}
 \end{frame}
 
+\begin{frame}[<+->][fragile]{概念补充}
+  \begin{itemize}
+    \item 仓库在哪里？
+
+    本地仓库的概念
+    \item “加入”的含义
+
+    Staging Area, Index, Cache 
+
+    add, update, stage
+    \item 查看Git状态
+\begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git status
+\end{Verbatim}
+
+  \end{itemize}
+\end{frame}
+
+
 \begin{frame}[<+->][fragile]{修改与提交}
 \onslide<+->
 修改一些内容
@@ -63,7 +134,15 @@ vi main.c
 查看状态，提交修改
 \begin{Verbatim}[frame=single,commandchars=\\\{\}]
 git status
-git commit -a -m 'Loop 70 times, then exit.'
+git add main.c
+git status
+git commit
+\end{Verbatim}
+
+\onslide<+->
+合并操作步骤
+\begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git commit -a -m 'Append a newline at the end of string'
 \end{Verbatim}
 \end{frame}
 
@@ -76,15 +155,30 @@ vi common.h
 \end{Verbatim}
 
 \onslide<+->
-加到Git仓库中
+查看状态，注意Untracked files提示
 \begin{Verbatim}[frame=single,commandchars=\\\{\}]
 git status
+\end{Verbatim}
+
+\onslide<+->
+加到Git仓库中
+\begin{Verbatim}[frame=single,commandchars=\\\{\}]
 git add common.c common.h
+git status
 git commit -m 'Two files common.[ch] are added.'
+git status
 \end{Verbatim}
 \end{frame}
 
-\begin{frame}[<+->][fragile]{重新来过}
+\begin{frame}[<+->]{纳入/未纳入代码管理的文件}
+  \begin{itemize}
+    \item git add <file> 纳入Git的控制之下
+    \item git rm <file> 从Git管理中删除文件
+    \item 特殊文件\  .gitignore 专门设定无需Git管理的文件
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[<+->][fragile]{选择性提交}
 \onslide<+->
 继续修改文件
 \begin{Verbatim}[frame=single,commandchars=\\\{\}]
@@ -100,11 +194,17 @@ git diff
 \end{Verbatim}
 
 \onslide<+->
-反而改乱了，想回到上次提交时的状态
+只想提交针对个别文件的修改
 \begin{Verbatim}[frame=single,commandchars=\\\{\}]
-git reset --hard
+git add main.c
+git commit
 \end{Verbatim}
-注意：刚才所修改的内容都丢弃了
+
+\onslide<+->
+所有修改过的文件，一律提交
+\begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git commit -am 'fix the #755 bug'
+\end{Verbatim}
 \end{frame}
 
 \begin{frame}[<+->][fragile]{另辟蹊径：新建分支}
@@ -248,7 +348,6 @@ git commit
     \end{itemize}
 \end{frame}
 
-\fi
 \begin{frame}
 \begin{tikzpicture}
 [
