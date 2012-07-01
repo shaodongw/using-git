@@ -209,7 +209,7 @@ git commit -am 'fix the #755 bug'
 
 \begin{frame}[<+->]{Git仓库中包含每一次提交所形成的历史}
 \begin{tikzpicture}
-[ commit/.style={ circle, minimum size=11mm, very thick, draw=black, },
+[ commit/.style={ circle, minimum size=11mm, draw=black, },
 start chain,node distance=8mm, every node/.style={on chain,join}, every join/.style={<-}
 ]
 \foreach \x in {C1,C2,C3,C4,C5}
@@ -323,7 +323,7 @@ git commit -m 'Some function is added.'
 
 \begin{frame}{新的分支上的提交}
 \begin{tikzpicture}
-[ commit/.style={ circle, minimum size=11mm, very thick, draw=black, },
+[ commit/.style={ circle, minimum size=11mm, draw=black, },
 start chain,node distance=5mm, every node/.style={on chain,join}, every join/.style={<-}
 ]
 \visible<+->{
@@ -419,7 +419,7 @@ git commit -a
 
 \begin{frame}{分支切换示意}
 \begin{tikzpicture}
-[ commit/.style={ circle, minimum size=11mm, very thick, draw=black, },
+[ commit/.style={ circle, minimum size=11mm, draw=black, },
 start chain,node distance=5mm, every node/.style={on chain,join}, every join/.style={<-}
 ]
 \node [commit] {C2};
@@ -467,6 +467,106 @@ start chain,node distance=5mm, every node/.style={on chain,join}, every join/.st
             \node (tiphead) [on chain=going above right, node distance=3mm] {HEAD};
         \end{scope}
     }
+}
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}[fragile]{分支合并}
+\onslide<+->
+    master分支内所发现的bug，在目前的dev分支内，也是存在的，
+    希望把对那个bug的修复，合并到dev分支中。
+
+\onslide<+->
+\begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git checkout dev
+git merge master
+\end{Verbatim}
+
+\onslide<+->
+若合并成功，将会自动产生新的提交。
+\begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git log
+\end{Verbatim}
+\end{frame}
+
+\begin{frame}{master合并到dev}
+\begin{tikzpicture}
+[ commit/.style={ circle, minimum size=11mm, draw=black, },
+start chain=main, node distance=5mm, every node/.style={on chain,join}, every join/.style={<-}
+]
+\node [commit] {C2};
+\node [commit] {C3};
+    \begin{scope}[start branch=plus]
+    \node (plus) [commit,on chain=placed {at=(-60:25mm)}, node distance=11mm] {C4};
+    \node (plus) [commit] {C5};
+    \node (plus) [commit] {C7};
+        \visible<1>{
+        \begin{scope}[start branch=tipdev]
+            \node (tipdev) [on chain=going below, node distance=3mm] {dev};
+        \end{scope}
+        }
+    \end{scope}
+\node [commit] {C6};    
+    \begin{scope}[start branch=master]
+    \node (master) [on chain=going above, node distance=3mm] {master};
+    \end{scope}
+    \visible<2->{
+    \begin{scope}[continue branch=plus]
+    \node (plus) [commit, join=with main-3] {C8};
+        \begin{scope}[start branch=tipdev]
+            \node (tipdev) [on chain=going below, node distance=3mm] {dev};
+        \end{scope}
+    \end{scope}
+    }
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{}
+    \begin{itemize}
+        \item 
+        \item 
+        \item 
+        \item
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}{dev合并到master}
+\begin{tikzpicture}
+[ commit/.style={ circle, minimum size=11mm, draw=black, },
+start chain=main, node distance=5mm, every node/.style={on chain,join}, every join/.style={<-}
+]
+\node [commit] {C3};
+    \begin{scope}[start branch=dev]
+    \node [commit,on chain=placed {at=(-90:25mm)}, node distance=11mm] {C4};
+    \node [commit] {C5};
+    \node [commit] {C7};
+    \end{scope}
+\node [commit] {C6};    
+    \visible<1-2>{
+    \begin{scope}[start branch]
+    \node [on chain=going above, node distance=3mm] {master};
+    \end{scope}
+    }
+    \begin{scope}[continue branch=dev]
+    \node [commit, join=with main-2] {C8};
+        \visible<1>{
+        \begin{scope}[start branch]
+            \node [on chain=going below, node distance=3mm] {dev};
+        \end{scope}
+        }
+    \visible<2->{
+    \node (c9) [commit] {C9};
+        \begin{scope}[start branch]
+            \node (tipdev) [on chain=going below, node distance=3mm] {dev};
+        \end{scope}
+    }
+    \end{scope}
+\visible<3->{
+\node [commit, on chain=going right, node distance=60mm, join=with c9 ] {C10};    
+    \begin{scope}[start branch]
+        \node [on chain=going above, node distance=3mm] {master};
+    \end{scope}
 }
 \end{tikzpicture}
 \end{frame}

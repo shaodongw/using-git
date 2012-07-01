@@ -1,71 +1,40 @@
-\begin{frame}[<+->]{Git仓库中包含每一次提交所形成的历史}
+\begin{frame}{��֧�ϲ�ʾ��}
 \begin{tikzpicture}
-[ commit/.style={ circle, minimum size=11mm, very thick, draw=black, },
-start chain,node distance=5mm, every node/.style={on chain,join}, every join/.style={<-}
+[ commit/.style={ circle, minimum size=11mm, draw=black, },
+start chain=main, node distance=5mm, every node/.style={on chain,join}, every join/.style={<-}
 ]
-\foreach \x in {C1,C2}
-{
-    \visible<+->
-    {\node [commit] {\x};
-        \visible<.>{
-        \begin{scope}[start branch=master]
-        \node (master) [on chain=going above, node distance=3mm] {master};
-        \end{scope}}}
-}
-\visible<+->
-{\node [commit] {C3};
-    \visible<.->{
-    \begin{scope}[start branch=master]
-    \node (master) [on chain=going above, node distance=3mm] {master};
-    \end{scope}}}
-\visible<+>{
+\node [commit] {C3};
     \begin{scope}[start branch=dev]
-        \node (dev) [on chain=going below, node distance=3mm] {dev};
-    \end{scope}}
-\visible<+->{
-    \begin{scope}[start branch=plus]
-    \node (plus) [commit,on chain=going below right, node distance=8mm] {C4};
-        \visible<.>{
-        \begin{scope}[start branch=tipdev]
-            \node (tipdev) [on chain=going below, node distance=3mm] {dev};
-        \end{scope}}
-    \visible<+->{\node (plus) [commit] {C5};
-        \visible<.>{
-        \begin{scope}[start branch=tipdev]
-            \node (tipdev) [on chain=going below, node distance=3mm] {dev};
-        \end{scope}}
+    \node [commit,on chain=placed {at=(-90:25mm)}, node distance=11mm] {C4};
+    \node [commit] {C5};
+    \node [commit] {C7};
+    \end{scope}
+\node [commit] {C6};    
+    \visible<1-2>{
+    \begin{scope}[start branch]
+    \node [on chain=going above, node distance=3mm] {master};
+    \end{scope}
     }
-    \visible<+->{\node (plus) [commit] {C6};
-        \begin{scope}[start branch=tipdev]
+    \begin{scope}[continue branch=dev]
+    \node [commit, join=with main-2] {C8};
+        \visible<1>{
+        \begin{scope}[start branch]
+            \node [on chain=going below, node distance=3mm] {dev};
+        \end{scope}
+        }
+    \visible<2->{
+    \node (c9) [commit] {C9};
+        \begin{scope}[start branch]
             \node (tipdev) [on chain=going below, node distance=3mm] {dev};
         \end{scope}
     }
-    \end{scope}}
+    \end{scope}
+\visible<3->{
+\node [commit, on chain=going right, node distance=60mm, join=with c9 ] {C10};    
+    \begin{scope}[start branch]
+        \node [on chain=going above, node distance=3mm] {master};
+    \end{scope}
+}
 \end{tikzpicture}
 \end{frame}
 
-%   \begin{frame}[<+->]{Git仓库中包含每一提交所形成的历史}
-%   \begin{tikzpicture}
-%   [
-%   commit/.style={
-%   circle,
-%   minimum size=11mm,
-%   very thick,
-%   draw=black,
-%   },
-%   start chain,node distance=8mm, every node/.style={on chain,join}, every join/.style={<-}
-%   ]
-%   \node [commit] {C1};
-%       \begin{scope}[start branch=tip]
-%       \node (tip) [on chain=going above, node distance=3mm] {master};
-%       \end{scope}
-%   \node [commit] {C2};
-%   \node [commit] {C3};
-%       \begin{scope}[start branch=plus]
-%       \node (plus) [commit,on chain=going below right, node distance=13mm] {CA1};
-%       \end{scope}
-%   \node [commit] {C38};
-%   
-%   \end{tikzpicture}
-%   \end{frame}
-%   
