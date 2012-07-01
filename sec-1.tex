@@ -207,6 +207,23 @@ git commit -am 'fix the #755 bug'
 \end{Verbatim}
 \end{frame}
 
+\begin{frame}[<+->]{Git仓库中包含每一次提交所形成的历史}
+\begin{tikzpicture}
+[ commit/.style={ circle, minimum size=11mm, very thick, draw=black, },
+start chain,node distance=8mm, every node/.style={on chain,join}, every join/.style={<-}
+]
+\foreach \x in {C1,C2,C3,C4,C5}
+{
+    \visible<+->
+    {\node [commit] {\x};
+        \visible<.>{
+        \begin{scope}[start branch=tip]
+        \node (tip) [on chain=going above, node distance=3mm] {master};
+        \end{scope}}}
+}
+\end{tikzpicture}
+\end{frame}
+
 \begin{frame}[<+->][fragile]{另辟蹊径：新建分支}
 \onslide<+->
 想给当前的项目增加新功能，有不想影响正在进行的工作
@@ -348,27 +365,28 @@ git commit
     \end{itemize}
 \end{frame}
 
-\begin{frame}
-\begin{tikzpicture}
-[
-commit/.style={
-circle,
-minimum size=11mm,
-very thick,
-draw=black,
-},
-start chain,node distance=8mm, every node/.style={on chain,join}, every join/.style={<-}
-]
-\node [commit] {C1};
-    \begin{scope}[start branch=tip]
-    \node (tip) [on chain=going above, node distance=3mm] {master};
-    \end{scope}
-\node [commit] {C2};
-\node [commit] {C3};
-    \begin{scope}[start branch=plus]
-    \node (plus) [commit,on chain=going below right, node distance=13mm] {CA1};
-    \end{scope}
-\node [commit] {C38};
-
-\end{tikzpicture}
-\end{frame}
+%   \begin{frame}[<+->]{Git仓库中包含每一提交所形成的历史}
+%   \begin{tikzpicture}
+%   [
+%   commit/.style={
+%   circle,
+%   minimum size=11mm,
+%   very thick,
+%   draw=black,
+%   },
+%   start chain,node distance=8mm, every node/.style={on chain,join}, every join/.style={<-}
+%   ]
+%   \node [commit] {C1};
+%       \begin{scope}[start branch=tip]
+%       \node (tip) [on chain=going above, node distance=3mm] {master};
+%       \end{scope}
+%   \node [commit] {C2};
+%   \node [commit] {C3};
+%       \begin{scope}[start branch=plus]
+%       \node (plus) [commit,on chain=going below right, node distance=13mm] {CA1};
+%       \end{scope}
+%   \node [commit] {C38};
+%   
+%   \end{tikzpicture}
+%   \end{frame}
+%   
