@@ -5,59 +5,108 @@ start chain,node distance=5mm, every node/.style={on chain}, every join/.style={
 ]
 \node [commit, join] {C2};
 \node [commit, join] (c3) {C3};
+    \visible<1-7,12>{
         \begin{scope}[start branch=master]
             \node [on chain=going above, node distance=3mm, join] {master};
         \end{scope}
+    }
+    \visible<2-3,7>{
         \begin{scope}[start branch=tiphead]
-            \node [on chain=going above right, node distance=3mm, join] {HEAD};
+            \node [on chain=going right, node distance=3mm, join] {HEAD};
         \end{scope}
+    }
+    \visible<3>{
+        \begin{scope}[start branch=tipfix]
+            \node [on chain=going below, node distance=3mm, join] {fixbug};
+        \end{scope}
+    }
     \begin{scope}[start branch=plus]
     \node [commit, join,on chain=going below right, node distance=11mm] {C4};
     \node [commit, join] {C5};
             \begin{scope}[start branch=tipdev]
                 \node [on chain=going below, node distance=3mm, join] {dev};
             \end{scope}
+        \visible<1>{
             \begin{scope}[start branch=tiphead]
-                \node [on chain=going below right, node distance=3mm, join] {HEAD};
+                \node [on chain=going right, node distance=3mm, join] {HEAD};
             \end{scope}
+        }
     \end{scope}
     
-\visible<1>{
 \begin{scope}    
+\visible<4-9,12->{
 \node [commit, join, on chain=going above right, node distance=11mm] {C6};    
-    \begin{scope}[start branch=master]
-    \node [on chain=going above, node distance=3mm, join] {master};
-    \end{scope}
-        \begin{scope}[start branch=tiphead]
-            \node [on chain=going above right, node distance=3mm, join] {HEAD};
-        \end{scope}
-\node [commit, join] {C7};    
-    \begin{scope}[start branch=master]
-    \node [on chain=going above, node distance=3mm, join] {master};
-    \end{scope}
-        \begin{scope}[start branch=tiphead]
-            \node [on chain=going above right, node distance=3mm, join] {HEAD};
-        \end{scope}
-\node [commit, join] {C8};    
-    \begin{scope}[start branch=master]
-    \node [on chain=going above, node distance=3mm, join] {master};
-    \end{scope}
-        \begin{scope}[start branch=tiphead]
-            \node [on chain=going above right, node distance=3mm, join] {HEAD};
-        \end{scope}
-\end{scope}
 }
+    \visible<4>{
+        \begin{scope}[start branch=master]
+            \node [on chain=going below, node distance=3mm, join] {fixbug};
+        \end{scope}
+        \begin{scope}[start branch=tiphead]
+            \node [on chain=going right, node distance=3mm, join] {HEAD};
+        \end{scope}
+    }
+\visible<5-9,12->{
+\node [commit, join] {C7};    
+}
+    \visible<5>{
+        \begin{scope}[start branch=master]
+            \node [on chain=going below, node distance=3mm, join] {fixbug};
+        \end{scope}
+        \begin{scope}[start branch=tiphead]
+            \node [on chain=going right, node distance=3mm, join] {HEAD};
+        \end{scope}
+    }
+\visible<6-9,12->{
+\node [commit, join] {C8};    
+}
+    \visible<6-8,12-13>{
+        \begin{scope}[start branch=master]
+            \node [on chain=going below, node distance=3mm, join] {fixbug};
+        \end{scope}
+    }
+    \visible<6,8-9,12>{
+        \begin{scope}[start branch=tiphead]
+            \node [on chain=going right, node distance=3mm, join] {HEAD};
+        \end{scope}
+    }
+    \visible<8-9>{
+        \begin{scope}[start branch=master]
+            \node [on chain=going above, node distance=3mm, join] {master};
+        \end{scope}
+    }
+\visible<13->{
+\node [commit, very thick, red, join, on chain=going below right, node distance=11mm, join=with c3] {C9};    
+    \begin{scope}[start branch=master]
+    \node [on chain=going above, node distance=3mm, join] {master};
+    \end{scope}
+        \begin{scope}[start branch=tiphead]
+            \node [on chain=going right, node distance=3mm, join] {HEAD};
+        \end{scope}
+}
+\end{scope}
 
-\visible<2>{
+\visible<10>{
 \node [commit, above right=0mm and 8mm of c3, join=with c3] {C6};    
 \node [commit, join] {C7};    
 \node [commit, join] {C8};    
+        \begin{scope}[start branch=tiphead]
+            \node [on chain=going right, node distance=3mm, join] {HEAD};
+        \end{scope}
+        \begin{scope}[start branch=master]
+            \node [on chain=going above, node distance=3mm, join] {master};
+        \end{scope}
 }
 
-\visible<3>{
+\visible<11>{
 \node [commit, right=of c3, join=with c3] {C6};    
 \node [commit, join] {C7};    
 \node [commit, join] {C8};    
+        \begin{scope}[start branch=tiphead]
+            \node [on chain=going right, node distance=3mm, join] {HEAD};
+        \end{scope}
+        \begin{scope}[start branch=master]
+            \node [on chain=going above, node distance=3mm, join] {master};
+        \end{scope}
 }
 
 \end{tikzpicture}
