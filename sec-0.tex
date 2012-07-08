@@ -22,6 +22,7 @@ start chain,node distance=5mm, every node/.style={on chain}, every join/.style={
             \end{scope}
     \end{scope}
     
+\visible<1>{
 \begin{scope}    
 \node [commit, join, on chain=going above right, node distance=11mm] {C6};    
     \begin{scope}[start branch=master]
@@ -45,7 +46,19 @@ start chain,node distance=5mm, every node/.style={on chain}, every join/.style={
             \node [on chain=going above right, node distance=3mm, join] {HEAD};
         \end{scope}
 \end{scope}
+}
 
+\visible<2>{
+\node [commit, above right=0mm and 8mm of c3, join=with c3] {C6};    
+\node [commit, join] {C7};    
+\node [commit, join] {C8};    
+}
+
+\visible<3>{
 \node [commit, right=of c3, join=with c3] {C6};    
+\node [commit, join] {C7};    
+\node [commit, join] {C8};    
+}
+
 \end{tikzpicture}
 \end{frame}
