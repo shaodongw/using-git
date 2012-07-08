@@ -292,7 +292,7 @@ git commit --help
 \end{frame}
 
 
-\part{分支：并行开发的根本}
+\part{分支与合并：并行开发的根本}
 
 \begin{frame}[<+->][fragile]{新建分支}
 \onslide<+->
@@ -435,7 +435,7 @@ start chain,node distance=5mm, every node/.style={on chain,join}, every join/.st
         \end{scope}
     }
     \begin{scope}[start branch=plus]
-    \node (plus) [commit,on chain=going below right, node distance=11mm] {C4};
+    \node (plus) [commit,on chain=placed {at=(-60:25mm)}, node distance=11mm] {C4};
     \node (plus) [commit] {C5};
         \visible<1-5>{
             \begin{scope}[start branch=tipdev]
