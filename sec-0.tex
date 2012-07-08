@@ -1,40 +1,51 @@
-\begin{frame}{分支合并示意}
+\begin{frame}{在新建的修复分支中处理缺陷}
 \begin{tikzpicture}
 [ commit/.style={ circle, minimum size=11mm, draw=black, },
-start chain=main, node distance=5mm, every node/.style={on chain,join}, every join/.style={<-}
+start chain,node distance=5mm, every node/.style={on chain}, every join/.style={<-}
 ]
-\node [commit] {C3};
-    \begin{scope}[start branch=dev]
-    \node [commit,on chain=placed {at=(-90:25mm)}, node distance=11mm] {C4};
-    \node [commit] {C5};
-    \node [commit] {C7};
-    \end{scope}
-\node [commit] {C6};    
-    \visible<1-2>{
-    \begin{scope}[start branch]
-    \node [on chain=going above, node distance=3mm] {master};
-    \end{scope}
-    }
-    \begin{scope}[continue branch=dev]
-    \node [commit, join=with main-2] {C8};
-        \visible<1>{
-        \begin{scope}[start branch]
-            \node [on chain=going below, node distance=3mm] {dev};
+\node [commit, join] {C2};
+\node [commit, join] (c3) {C3};
+        \begin{scope}[start branch=master]
+            \node [on chain=going above, node distance=3mm, join] {master};
         \end{scope}
-        }
-    \visible<2->{
-    \node (c9) [commit] {C9};
-        \begin{scope}[start branch]
-            \node (tipdev) [on chain=going below, node distance=3mm] {dev};
+        \begin{scope}[start branch=tiphead]
+            \node [on chain=going above right, node distance=3mm, join] {HEAD};
         \end{scope}
-    }
+    \begin{scope}[start branch=plus]
+    \node [commit, join,on chain=going below right, node distance=11mm] {C4};
+    \node [commit, join] {C5};
+            \begin{scope}[start branch=tipdev]
+                \node [on chain=going below, node distance=3mm, join] {dev};
+            \end{scope}
+            \begin{scope}[start branch=tiphead]
+                \node [on chain=going below right, node distance=3mm, join] {HEAD};
+            \end{scope}
     \end{scope}
-\visible<3->{
-\node [commit, on chain=going right, node distance=60mm, join=with c9 ] {C10};    
-    \begin{scope}[start branch]
-        \node [on chain=going above, node distance=3mm] {master};
+    
+\begin{scope}    
+\node [commit, join, on chain=going above right, node distance=11mm] {C6};    
+    \begin{scope}[start branch=master]
+    \node [on chain=going above, node distance=3mm, join] {master};
     \end{scope}
-}
+        \begin{scope}[start branch=tiphead]
+            \node [on chain=going above right, node distance=3mm, join] {HEAD};
+        \end{scope}
+\node [commit, join] {C7};    
+    \begin{scope}[start branch=master]
+    \node [on chain=going above, node distance=3mm, join] {master};
+    \end{scope}
+        \begin{scope}[start branch=tiphead]
+            \node [on chain=going above right, node distance=3mm, join] {HEAD};
+        \end{scope}
+\node [commit, join] {C8};    
+    \begin{scope}[start branch=master]
+    \node [on chain=going above, node distance=3mm, join] {master};
+    \end{scope}
+        \begin{scope}[start branch=tiphead]
+            \node [on chain=going above right, node distance=3mm, join] {HEAD};
+        \end{scope}
+\end{scope}
+
+\node [commit, right=of c3, join=with c3] {C6};    
 \end{tikzpicture}
 \end{frame}
-

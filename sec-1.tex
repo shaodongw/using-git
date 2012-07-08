@@ -51,6 +51,7 @@ git --version
 \end{Verbatim}
     \item Windows 系统下，可以看到如下图标：
         \begin{center}
+            \rule{0mm}{25mm}
             \includegraphics<.->[height=20mm]{figure/git-logo.png}
             \hspace{10mm}
             \includegraphics<.->[height=20mm]{figure/msysgit-logo.png}
@@ -58,7 +59,6 @@ git --version
     \item Mac 系统下（？）
   \end{itemize}
 \end{frame}
-
 
 \begin{frame}[<+->][fragile]{安装Git}
 \begin{itemize}
@@ -482,11 +482,12 @@ git checkout dev
 git merge master
 \end{Verbatim}
 
-\onslide<+->
 若合并成功，将会自动产生新的提交。
+\onslide<+->
 \begin{Verbatim}[frame=single,commandchars=\\\{\}]
 git log
 \end{Verbatim}
+可以观察到
 \end{frame}
 
 \begin{frame}{master合并到dev}
@@ -521,12 +522,96 @@ start chain=main, node distance=5mm, every node/.style={on chain,join}, every jo
 \end{tikzpicture}
 \end{frame}
 
-\begin{frame}{}
+\begin{frame}[<+->][fragile]{更加专业的做法}
     \begin{itemize}
-        \item 
-        \item 
-        \item 
-        \item
+        \item Git分支与合并的成本很低
+        \item 在新的分支上修改，然后合并回来的做法，更加专业
+        \item 修复新发现bug的通行做法是
+        \begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git checkout master
+git branch fixbug
+git checkout fixbug
+# Fix bugs ...
+git add ...
+git commit
+# Test
+git checkout master
+git merge fixbug
+git branch -d fixbug
+        \end{Verbatim}
+        \item 上面最后一条是删除分支的命令
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{在新建的修复分支中处理缺陷}
+\begin{tikzpicture}
+[ commit/.style={ circle, minimum size=11mm, draw=black, },
+start chain,node distance=5mm, every node/.style={on chain,join}, every join/.style={<-}
+]
+\node [commit] {C2};
+\node [commit] {C3};
+    \visible<1-3>{
+        \begin{scope}[start branch=master]
+            \node (master) [on chain=going above, node distance=3mm] {master};
+        \end{scope}
+    }
+    \visible<3>{
+        \begin{scope}[start branch=tiphead]
+            \node (tiphead) [on chain=going above right, node distance=3mm] {HEAD};
+        \end{scope}
+    }
+    \begin{scope}[start branch=plus]
+    \node (plus) [commit,on chain=going below right, node distance=11mm] {C4};
+    \node (plus) [commit] {C5};
+        \visible<1-5>{
+            \begin{scope}[start branch=tipdev]
+                \node (tipdev) [on chain=going below, node distance=3mm] {dev};
+            \end{scope}
+        }
+        \visible<2,5>{
+            \begin{scope}[start branch=tiphead]
+                \node (tiphead) [on chain=going below right, node distance=3mm] {HEAD};
+            \end{scope}
+        }
+    \visible<6>{
+    \node (plus) [commit] {C7};
+        \begin{scope}[start branch=tipdev]
+            \node (tipdev) [on chain=going below, node distance=3mm] {dev};
+        \end{scope}
+        \begin{scope}[start branch=tiphead]
+            \node (tiphead) [on chain=going below right, node distance=3mm] {HEAD};
+        \end{scope}
+    }
+    \end{scope}
+\visible<4-6>{    
+\node [commit] {C6};    
+    \begin{scope}[start branch=master]
+    \node (master) [on chain=going above, node distance=3mm] {master};
+    \end{scope}
+    \visible<4>{
+        \begin{scope}[start branch=tiphead]
+            \node (tiphead) [on chain=going above right, node distance=3mm] {HEAD};
+        \end{scope}
+    }
+}
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}[<+->][fragile]{更简洁的命令}
+    \begin{itemize}
+        \item 创建新分支并切换过去
+        \begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git checkout -b fixbug      
+        \end{Verbatim}
+        \item 被修改的文件，加入暂存区并提交
+        \begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git commit -a
+        \end{Verbatim}
+        \item 切换到新分支的同时，把当前修改过的文件一起合并过去
+        \begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git checkout -m master
+        \end{Verbatim}
+        要注意合并是否出现冲突
     \end{itemize}
 \end{frame}
 
