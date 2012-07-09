@@ -1,47 +1,23 @@
-\part{更熟悉一点Git的使用}
-\begin{frame}[<+->][fragile]{分支/合并是Git的核心能力}
-    \begin{itemize}
-        \item 新建分支，切换分支，很容易
-\begin{Verbatim}[frame=single,commandchars=\\\{\}]
-git branch newfeature
-git checkout newfeature
-\end{Verbatim}
-        \item 两步合一步
-\begin{Verbatim}[frame=single,commandchars=\\\{\}]
-git checkout -b newfeature            
-\end{Verbatim}
-        \item 新建分支不是大事儿
-        \item 习惯的做法：
+\part{多Git一点}
 
-新建临时分支并切换到那里，修改代码，提交，再修改，再提交 \(\ldots\) 回到原分支，将临时分支合并过来，删除 \(\ldots\)临时分支
+\begin{frame}[<+->][fragile]{查看分支}
+    \begin{itemize}
+        \item 当前所在分支
+        \begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git branch        
+        \end{Verbatim}
+        \item 了解分支情况
+        \begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git show-branch
+        \end{Verbatim}
+        \item 绘出分支历史关系图
+        \begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git log --graph --all --pretty=oneline
+        \end{Verbatim}
     \end{itemize}
 \end{frame}
 
-\begin{frame}
-    \includegraphics<1>[width=9cm]{figure/branch-merge-cycle-1.png}
-    \includegraphics<2>[width=9cm]{figure/branch-merge-cycle-1-G.png}
-    \includegraphics<3>[width=9cm]{figure/branch-merge-cycle-1-H.png}
-    \includegraphics<4>[width=9cm]{figure/branch-merge-cycle-1-I.png}
-    \includegraphics<5>[width=9cm]{figure/branch-merge-cycle-1-J.png}
-    \includegraphics<6>[width=9cm]{figure/branch-merge-cycle-1-K.png}
-    \includegraphics<7>[width=9cm]{figure/branch-merge-cycle-1-L.png}
-    \includegraphics<8>[width=9cm]{figure/branch-merge-cycle-2.png}
-    \includegraphics<9>[width=9cm]{figure/branch-merge-cycle-3.png}
-    \includegraphics<10>[width=9cm]{figure/branch-merge-cycle-4.png}
-\end{frame}
-
-\begin{frame}[<+->][fragile]{删除分支}
-    \begin{itemize}
-        \item 删除分支，很容易
-\begin{Verbatim}[frame=single,commandchars=\\\{\}]
-git branch -d newfeature
-\end{Verbatim}
-        \item 只有已经合并的分支才能删除
-        \item 删除分支不是大事儿
-    \end{itemize}
-\end{frame}
-
-\begin{frame}[<+->][fragile]{提交的历史}
+\begin{frame}[<+->][fragile]{观察历史}
     \begin{itemize}
         \item 每一次提交都被保存在仓库中，用一串sha1校验和表示
         \item 观察每一次的提交：
@@ -52,69 +28,38 @@ git log
 \begin{Verbatim}[frame=single,commandchars=\\\{\}]
 git log --pretty=oneline
 \end{Verbatim}
-        \item 分别得到这样的结果
     \end{itemize}
 \end{frame}
 
-\begin{frame}[<+->][fragile]{}
-    \begin{itemize}
-        \item 分别得到这样的结果
-\begin{Verbatim}[frame=single,commandchars=\\\{\}]
-commit 81f5046656fc04665f7a5224cc07cfbbdb14baf6
-Author: Wang Shaodong <wsd@wsd-hp>
-Date:   Wed Mar 14 07:10:36 2012 +0800
-
-    remove a branch
-
-commit 1a3a3437775f20b1caa6dfa41d22539a17db542e
-Author: Wang Shaodong <wsd@wsd-hp>
-Date:   Wed Mar 14 07:03:44 2012 +0800
-
-    file .gitignore is added
-\end{Verbatim}
-
-        \item 或者
-
-\begin{Verbatim}[frame=single,commandchars=\\\{\}]
-81f5046656fc04665f7a5224cc07cfbbdb14baf6 remove a branch
-1a3a3437775f20b1caa6dfa41d22539a17db542e file .gitignore is added
-236c0268eaddc68c8a03a867a482a56317f2649a branch-merge-cycle
-533e3140bffee43b02c5648c8fcc3e63232739a6 fix a bug on figure resolve-conflict
-\end{Verbatim}
-    \end{itemize}
-\end{frame}
-
-\begin{frame}[<+->][fragile]{标识每一个提交}
+\begin{frame}[<+->][fragile]{标识历史上的每一个提交}
     \begin{itemize}
         \item 绝对提交名：533e3140bffee43b02c5648c8fcc3e63232739a6
         \item 绝对提交名的简写：533e31
-        \item 参照名：remotes/origin/master, newfeature
+        \item 参照名：master, dev, fixbug, v1.0, remotes/origin/master
         \item 符号参照名：\verb|HEAD, ORIG_HEAD, FETCH_HEAD, MERGE_HEAD|
         \item 相对提交名：\verb|master^, master^^, master~2, master~10^2|
     \end{itemize}
 \end{frame}
 
-\begin{frame}
-    \includegraphics<1>[width=9cm]{figure/commit-relative-name-1.png}
-    \includegraphics<2>[width=9cm]{figure/commit-relative-name-2.png}
-    \includegraphics<3>[width=9cm]{figure/commit-relative-name-3.png}
-    \includegraphics<4>[width=9cm]{figure/commit-relative-name-4.png}
-    \includegraphics<5>[width=9cm]{figure/commit-relative-name-5.png}
-\end{frame}
-
-\begin{frame}[<+->][fragile]{}
+\begin{frame}[<+->][fragile]{相对提交名}
     \begin{itemize}
         \item 尝试
 \begin{Verbatim}[frame=single,commandchars=\\\{\}]
 git rev-parse master
 \end{Verbatim}
-        \item 再尝试
+        \item 尝试
 \begin{Verbatim}[frame=single,commandchars=\\\{\}]
-git show-branch --more=35 --all
+git show-branch --more=3 --all
 \end{Verbatim}
-        \item 还可以试试
+        \item 尝试
 \begin{Verbatim}[frame=single,commandchars=\\\{\}]
-git rev-parse master~3
+git rev-parse master~2
+\end{Verbatim}
+        \item 尝试
+\begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git rev-parse HEAD^
+git rev-parse HEAD^^
+git rev-parse HEAD^2
 \end{Verbatim}
     \end{itemize}
 \end{frame}
