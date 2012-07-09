@@ -716,42 +716,47 @@ start chain=main, node distance=5mm, every node/.style={on chain,join}, every jo
 \end{tikzpicture}
 \end{frame}
 
-\begin{frame}[<+->][fragile]{分支合并}
+\begin{frame}[<+->][fragile]{分支合并冲突}
 \onslide<+->
-经过一段时间的修改，你认为你的newfeature分支已经做的不错。可以合并到master分支中来了。
+不同分支上，对同一部分的修改不一致，合并时会产生冲突
 \begin{Verbatim}[frame=single,commandchars=\\\{\}]
-git checkout master
+$ git merge dev
+Auto-merging main.c
+CONFLICT (content): Merge conflict in main.c
+Automatic merge failed; fix conflicts 
+and then commit the result.
 \end{Verbatim}
 
 \onslide<+->
-\begin{Verbatim}[frame=single,commandchars=\\\{\}]
-git merge newfuture
-\end{Verbatim}
-
-一切顺利的话，就会自动产生一个合并后的新提交。
+合并发生冲突时，不会自动产生新的提交。
 \end{frame}
 
-\begin{frame}
-    \includegraphics<1>[width=9cm]{figure/merge-1.png}
-    \includegraphics<2>[width=9cm]{figure/merge-2.png}
+\begin{frame}[<+->][fragile]{分支合并冲突（续）}
+\onslide<+->
+产生冲突的文件内容变成
+\begin{Verbatim}[frame=single,commandchars=\@\[\]]
+#include<stdio.h>
+int main()
+{
+        printf("Hello, World!\n");
+<<<<<<< HEAD
+        printf("This is second line.\n");
+=======
+        printf("The 2nd line is here.\n");
+>>>>>>> dev
+}
+\end{Verbatim}
 \end{frame}
 
 \begin{frame}[fragile]{解决合并时的冲突}
-合并产生冲突时，会出现冲突提示。
-
-这时需要手工解决冲突，然后提交
+\onslide<+->
+手工解决冲突，然后提交
 \begin{Verbatim}[frame=single,commandchars=\\\{\}]
-vim main.c
+vi main.c
 \(\cdots\)
 git add main.c
 git commit
 \end{Verbatim}
-\end{frame}
-
-\begin{frame}
-    \includegraphics<1>[height=6cm]{figure/resolve-conflict-1.png}
-    \includegraphics<2>[height=6cm]{figure/resolve-conflict-2.png}
-    \includegraphics<3>[height=7cm]{figure/resolve-conflict-3.png}
 \end{frame}
 
 \begin{frame}{小结}
