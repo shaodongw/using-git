@@ -64,6 +64,46 @@ git rev-parse HEAD^2
     \end{itemize}
 \end{frame}
 
+\begin{frame}[<+->][fragile]{标签}
+    \begin{itemize}
+        \item 给当前的版本加标签
+        \begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git tag -a v1.0
+        \end{Verbatim}
+        \item 查看标签
+        \begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git tag
+        \end{Verbatim}
+        \item 了解标签所对应的提交名
+        \begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git rev-parse v1.0
+        \end{Verbatim}
+        \item 在提交历史中显示标签
+        \begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git log --decorate
+        \end{Verbatim}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[<+->][fragile]{标签（续）}
+    \begin{itemize}
+        \item 给历史上的版本加标签
+        \begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git checkout fd311e
+git tag -a v1.0 -m 'first release'
+git checkout dev
+        \end{Verbatim}
+        \item 或者
+        \begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git tag -a v1.1 9feb0 -m 'improved version'
+        \end{Verbatim}
+        \item 轻量标签
+        \begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git tag birth-day-revision
+        \end{Verbatim}
+    \end{itemize}
+\end{frame}
+
 \begin{frame}[<+->][fragile]{穿越：回到从前}
     \begin{itemize}
         \item 要检查某个历史上的版本
@@ -72,15 +112,63 @@ git checkout 533e31
 \end{Verbatim}
         \item 或者
 \begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git checkout v1.0
 git checkout master~3
 \end{Verbatim}
-        \item 还可以试试
+        \item 试试
 \begin{Verbatim}[frame=single,commandchars=\\\{\}]
 git checkout :/"some strings to find in comment"
 \end{Verbatim}
         \item 回到当下
 \begin{Verbatim}[frame=single,commandchars=\\\{\}]
-git checkout youbranchname
+git checkout dev
 \end{Verbatim}
     \end{itemize}
 \end{frame}
+
+\begin{frame}[<+->][fragile]{基于历史版本的修改}
+    \begin{itemize}
+        \item 'detached HEAD' state 概念
+        \item 查看/修改/试验/提交/抛弃
+        \item 另建分支以便将来可以找到它
+\begin{Verbatim}[frame=single,commandchars=\\\{\}]
+\(\cdots\)
+git checkout -b new_branch_name
+\(\cdots\)
+git commit
+git checkout dev
+\end{Verbatim}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[<+->][fragile]{干净的工作目录}
+    \begin{itemize}
+        \item 已修改未更新
+        \item 已更新待提交
+        \item 提交后又修改
+        \item 不干净的工作目录，妨碍你切换到其他版本
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[<+->][fragile]{抛弃与撤销}
+    \begin{itemize}
+        \item 抛弃所做的修改，强制切换
+        \begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git checkout -f dev
+        \end{Verbatim}
+        \item 撤销所做的修改，留在当前分支
+        \begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git checkout -- main.c
+        \end{Verbatim}
+        \item 修改已经更新到暂存区，尚未提交
+        \begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git reset HEAD main.c
+git checkout -- main.c
+        \end{Verbatim}
+        \item 两步合并成一步
+        \begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git reset --hard HEAD main.c
+        \end{Verbatim}
+    \end{itemize}
+\end{frame}
+
