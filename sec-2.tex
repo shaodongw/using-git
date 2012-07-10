@@ -172,3 +172,117 @@ git reset --hard HEAD main.c
     \end{itemize}
 \end{frame}
 
+\begin{frame}{图示}
+    %\includegraphics{figure/basic-usage.svg}
+\end{frame}
+
+\begin{frame}[<+->][fragile]{逆转与回退}
+    \begin{itemize}
+        \item 逆转（回滚）
+        \begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git revert HEAD
+        \end{Verbatim}
+        \item 回退
+        \begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git reset --hard HEAD~1
+        \end{Verbatim}
+        \item 已经向外公布的提交，不应该改变其历史
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{图示}
+\begin{tikzpicture}
+[ commit/.style={ circle, minimum size=11mm, draw=black, },
+start chain,node distance=5mm, every node/.style={on chain,join}, every join/.style={<-}
+]
+\node [commit] {C2};
+\node [commit] {C3};
+    \begin{scope}[start branch=master]
+    \node [on chain=going above, node distance=3mm] {master};
+    \end{scope}
+    \node [commit,on chain=going below right, node distance=8mm] {C4};
+        \visible<1,5>{
+        \begin{scope}[start branch=tipdev]
+            \node [on chain=going below, node distance=3mm] {dev};
+        \end{scope}
+        }
+    \begin{scope}[start branch=plus]
+        \visible<2->{
+        \node [commit, very thick, red] {C5};
+        }
+            \visible<2,4>{
+            \begin{scope}[start branch=tipdev]
+                \node [on chain=going below, node distance=3mm] {dev};
+            \end{scope}
+            }
+        \visible<3>{
+        \node [commit] {C4a};
+            \begin{scope}[start branch=tipdev]
+                \node [on chain=going below, node distance=3mm] {dev};
+            \end{scope}
+        }
+    \end{scope}
+    \visible<6->{
+    \node [commit, on chain=going below right, node distance=11mm] {C6};
+    }
+        \visible<6>{
+        \begin{scope}[start branch=tipdev]
+            \node [on chain=going below, node distance=3mm] {dev};
+        \end{scope}
+        }
+    \visible<7->{
+    \node [commit] {C7};
+        \begin{scope}[start branch=tipdev]
+            \node [on chain=going below, node distance=3mm] {dev};
+        \end{scope}
+    }
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}[<+->][fragile]{再谈合并}
+    \begin{itemize}
+        \item “快进型”合并，只移动分支指针
+        \item 一般的常规合并，自动向仓库产生新的提交
+        \item 合并有冲突时，不产生提交，等待处理
+            \begin{itemize}
+                \item 手工编辑，解决冲突
+                \item git add
+                \item git commit
+            \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[<+->][fragile]{对合并的撤销}
+    \begin{itemize}
+        \item 正常的合并已提交，要撤销
+        \begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git reset --hard ORIG_HEAD
+        \end{Verbatim}
+        \item 合并有冲突，不想解决它，撤销合并
+        \begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git reset --hard HEAD
+        \end{Verbatim}
+        \item 合并遇冲突，解决的不满意，重回合并冲突时
+        \begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git checkout -m
+        \end{Verbatim}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[<+->][fragile]{再谈合并冲突的处理}
+    \begin{itemize}
+        \item 一般的处理
+            \begin{itemize}
+                \item 手工编辑，解决冲突
+                \item git add
+                \item git commit
+            \end{itemize}
+        \item 放弃合并，恢复文件
+        \begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git reset --hard HEAD
+        \end{Verbatim}
+        \item 
+        \item
+    \end{itemize}
+\end{frame}
+
