@@ -176,6 +176,27 @@ git reset --hard HEAD main.c
     %\includegraphics{figure/basic-usage.svg}
 \end{frame}
 
+\begin{frame}[<+->][fragile]{git checkout操作的多义性}
+    \begin{itemize}
+        \item 切换分支
+        \begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git checkout branch_name
+        \end{Verbatim}
+        \item 单纯改变工作目录
+        \begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git checkout -- main.c
+        \end{Verbatim}
+        \item 区别：参数是“提交名”，还是“文件名”
+        \item 应用范例：“拎出”特定文件的历史版本到当前工作目录
+        \begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git checkout 7fba82 main.c
+git checkout fixbug~4 main.c
+git checkout v1.1   main.c
+        \end{Verbatim}
+    \end{itemize}
+\end{frame}
+
+
 \begin{frame}[<+->][fragile]{逆转与回退}
     \begin{itemize}
         \item 逆转（回滚）
@@ -244,45 +265,28 @@ start chain,node distance=5mm, every node/.style={on chain,join}, every join/.st
         \item “快进型”合并，只移动分支指针
         \item 一般的常规合并，自动向仓库产生新的提交
         \item 合并有冲突时，不产生提交，等待处理
-            \begin{itemize}
-                \item 手工编辑，解决冲突
-                \item git add
-                \item git commit
-            \end{itemize}
+        \begin{Verbatim}[frame=single,commandchars=\\\{\}]
+# Edit the file \(\ldots\)
+git add main.c
+git commit
+        \end{Verbatim}
+        冲突解决后的git commit操作，产生新的提交
     \end{itemize}
 \end{frame}
 
 \begin{frame}[<+->][fragile]{对合并的撤销}
     \begin{itemize}
-        \item 正常的合并已提交，要撤销
+        \item 合并成功，提交已自动产生，想要撤销它
         \begin{Verbatim}[frame=single,commandchars=\\\{\}]
 git reset --hard ORIG_HEAD
         \end{Verbatim}
-        \item 合并有冲突，不想解决它，撤销合并
+        \item 合并有冲突，提交未产生，此刻不想解决冲突，想要撤销合并
         \begin{Verbatim}[frame=single,commandchars=\\\{\}]
 git reset --hard HEAD
         \end{Verbatim}
-        \item 合并遇冲突，解决的不满意，重回合并冲突时
+        \item 合并遇冲突，试图解决，但不满意，重回合并冲突时的情景
         \begin{Verbatim}[frame=single,commandchars=\\\{\}]
 git checkout -m
         \end{Verbatim}
     \end{itemize}
 \end{frame}
-
-\begin{frame}[<+->][fragile]{再谈合并冲突的处理}
-    \begin{itemize}
-        \item 一般的处理
-            \begin{itemize}
-                \item 手工编辑，解决冲突
-                \item git add
-                \item git commit
-            \end{itemize}
-        \item 放弃合并，恢复文件
-        \begin{Verbatim}[frame=single,commandchars=\\\{\}]
-git reset --hard HEAD
-        \end{Verbatim}
-        \item 
-        \item
-    \end{itemize}
-\end{frame}
-
