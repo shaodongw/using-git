@@ -1,67 +1,92 @@
 \part{多人协同工作}
-\begin{frame}[<+->][fragile]{远程仓库与本地仓库}
+\begin{frame}[<+->][fragile]{初始工作}
 \begin{itemize}
-  \item 本地仓库
-  \item 远程仓库
   \item 克隆操作
 \begin{Verbatim}[frame=single,commandchars=\\\{\}]
 git clone ssh://example.com/git/our-project.git
+git clone git@example.com:git/our-project.git
 \end{Verbatim}
+  \item 远程仓库
+  \item 本地仓库
+  \begin{enumerate}
+    \item 工作目录（缺省：master分支的最新本）
+    \item 内含本地仓库（\ .git子目录）
+  \end{enumerate}
+  \item Development Repository \& Bare Repository
 \end{itemize}
 \end{frame}
 
-\begin{frame}[<+->][fragile]{仓库里有什么}
+\begin{frame}[<+->][fragile]{本地仓库}
 \begin{itemize}
-  \item 一旦在本地得到仓库的副本，一切操作就都在本地运行
+  \item 本地仓库一旦建立，操作就针对本地仓库
 \begin{Verbatim}[frame=single,commandchars=\\\{\}]
 git log
 \end{Verbatim}
   \item 可以看到所有的提交历史，都被复制过来。
   \item 自动为你建立工作目录，缺省的分支是master
+  \item 自动为你的远程仓库，起一个名字，缺省是origin
 \end{itemize}
 \end{frame}
 
-\begin{frame}[<+->][fragile]{你的工作情景}
+\begin{frame}[<+->][fragile]{回顾单独工作时的流程}
     \begin{itemize}
-        \item 先建一个临时分支，并切换到那里
-        \item 修改代码 \(\ldots\) 提交修改 \(\ldots\)
-        \item 修改代码 \(\ldots\) 提交修改 \(\ldots\)
-        \item 切换回主要工作分支（可以是master，但也未必）
+        \item 基于当前分支建一个临时分支，并切换到那里工作
+        \item 修改代码 \(\ldots\) 提交
+        \item 修改代码 \(\ldots\) 提交
+        \item 切换回工作分支（master, dev, \(\ldots\)）
         \item 把临时分支合并过来
-        \item 删除原来的临时分支（或者把工作分支反过来合并到临时分支，在临时分支上继续工作）
+        \item 删除临时分支（可保留再用）
         \item \(\ldots\)
     \end{itemize}
 \end{frame}
 
 \begin{frame}[<+->][fragile]{本地仓库推出去}
 \onslide<+->
-你所做的改动，统统提交到你本地的仓库，别人如何知晓？
+你的每一次提交，都存放在本地仓库中，别人如何知晓？
+\onslide<+->
 \begin{Verbatim}[frame=single,commandchars=\\\{\}]
 git push
 \end{Verbatim}
+将本地仓库的内容“推送”到远程仓库
 
 \onslide<+->
-如果自你上次和远程仓库同步以后，没有别人改动过远程的仓库，你的push不会遇到问题。
-反之，推操作会失败。
+\medskip
+自你上次和远程仓库同步以后，
+\medskip
+
+\onslide<+->
+    远程仓库未曾受过别人的git push操作：
+    
+    你的git push将成功
+
+\onslide<+->
+\medskip
+    反之，你的推送操作将会失败
+
+    \begin{Verbatim}[frame=single,commandchars=\\\{\}]
+! [rejected]    master -> master (non-fast-forward)
+    \end{Verbatim}
 \end{frame}
 
 \begin{frame}[<+->][fragile]{合并远程仓库里的变更到本地}
-\begin{Verbatim}[frame=single,commandchars=\\\{\}]
-git fetch
-git merge
-\end{Verbatim}
-
 \onslide<+->
-或者，合成一步
+用远程仓库的内容更新本地仓库
 \begin{Verbatim}[frame=single,commandchars=\\\{\}]
 git pull
 \end{Verbatim}
+
+\onslide<+->
+以上操作暗中包含两个步骤
+\begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git fetch  (from the remote ropository)
+git merge  (the tracking branch to the topic branch)
+\end{Verbatim}
 \end{frame}
 
-\begin{frame}[<+->][fragile]{先听再说}
+\begin{frame}[<+->][fragile]{合并只能在工作目录中进行}
 \onslide<+->
 git的逻辑是，合并永远不在远程仓库一端进行。
-必须到某个人的本地仓库，由他合并之后，再推倒
+必须先在某人的工作目录中合并，提交到本地仓库，再推送到
 远程。
 \onslide<+->
 如果本地合并一切顺利，合并之后，再次运行
