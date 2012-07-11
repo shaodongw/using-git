@@ -88,33 +88,65 @@ git merge  (the tracking branch to the topic branch)
 git的逻辑是，合并永远不在远程仓库一端进行。
 必须先在某人的工作目录中合并，提交到本地仓库，再推送到
 远程。
+
+\medskip
 \onslide<+->
 如果本地合并一切顺利，合并之后，再次运行
 \begin{Verbatim}[frame=single,commandchars=\\\{\}]
 git push
 \end{Verbatim}
+
 \onslide<+->
 如果合并出现冲突，解决冲突，提交改变到本地仓库，再推到远程。
 \end{frame}
 
-\begin{frame}[<+->][fragile]{分布式管理的体现}
-\onslide<+->
-git允许使用多个远程仓库。使用克隆命令时，自动为你指明一个名为origin的远程仓库。
-以后可以再添加、删除、修改远程仓库。
-\begin{Verbatim}[frame=single,commandchars=\\\{\}]
-git remote 
-git remote add github git://github.com/xxx/yyy.git
-git remove
-git rename
-\end{Verbatim}
+\begin{frame}[fragile]{多个远程仓库}
+git允许使用多个远程仓库。
 
-\onslide<+->
-指明远程仓库名的操作
+第一次使用克隆命令时，远程仓库自动命名为origin。
+
+以后可以再添加、删除、换名、修改远程仓库。
+
+\begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git remote add github git://github.com/xxx/yyy.git
+git remote rm github
+git remote rename lib njit
+git remote set-url xxlib tom@lib.xxyy.edu.cn:git/hw.git
+\end{Verbatim}
+\end{frame}
+
+\begin{frame}[fragile]{Git操作中特别指明目标仓库}
+Git操作中，带上远程仓库名
+
 \begin{Verbatim}[frame=single,commandchars=\\\{\}]
 git push github
-git push github testbranch
+git push github test_branch
 git fetch github
+git fetch github new_branch
 \end{Verbatim}
+\end{frame}
+
+\begin{frame}[<+->][fragile]{工作分支与其跟踪分支}
+    \begin{itemize}
+        \item 了解远程仓库的况
+        \begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git remote
+git remote show
+git remote show origin
+        \end{Verbatim}
+        \item 本地分支/远程分支
+        \item 工作分支/跟踪分支
+        \item 设置上游仓库与跟踪分支
+
+        \begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git clone    (will set up tracing branch automatically)
+git push -u other_remote my_branch
+git branch -t new_branch github/dev
+git branch --set-upstream l_br_name gitorious/master
+git checkout -b sf origin/serverfix
+git checkout -t origin/hack
+        \end{Verbatim}
+    \end{itemize}
 \end{frame}
 
 \begin{frame}[<+->][fragile]{平等}
