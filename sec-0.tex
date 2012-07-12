@@ -1,18 +1,27 @@
-\begin{frame}{}
+\begin{frame}[fragile]{}
 \begin{tikzpicture}[
 commit/.style={circle, minimum size=18mm, draw},
 stage/.style={ellipse, minimum size=12mm, draw},
 work/.style={rectangle, minimum size=12mm, draw},
+>=latex
 ]
   \node[commit] (c6) {Commit-6};
-  \node[commit] (c7) [right=of c6] {Commit-7};
-  \node[commit] (c8) [right=of c7] {Commit-8};
-
-  \node[stage] (stage) [below=of c8] {Staging Area};
-  
-  \node[work] (work) [below=of stage] {Working Directory}
-    edge [->] (stage)
-    edge [->] (c8)
+  \node[commit] (c7) [right=of c6] {Commit-7}
+    edge [->] (c6);
+  \node[commit] (c8) [right=of c7] {Commit-8}
     edge [->] (c7);
+
+  \node[stage] (stage) [below=15mm of c8] {Staging Area}
+    edge [<-, bend left=45] node[auto] {\tt git reset -{}- files} (c8)
+    edge [->, bend right=45] node[auto,swap]{\tt git commit} (c8);
+  
+  \node[work] (work) [below=18mm of stage] {Working Directory}
+    edge [<-, bend left=45] node[auto] {\tt git checkout -{}- files} (stage)
+    edge [->, bend right=45] node[auto,swap] {\tt git add files} (stage);
+
+    \begin{pgfonlayer}{background}
+    \node [fill=black!10,fit=(c6) (c8)] {};
+    \end{pgfonlayer}
+
 \end{tikzpicture}
 \end{frame}
