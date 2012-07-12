@@ -1,4 +1,4 @@
-\part{多人协同工作}
+\part{远程仓库与协同工作}
 \begin{frame}[<+->][fragile]{初始工作}
 \begin{itemize}
   \item 克隆操作
@@ -118,11 +118,20 @@ git remote set-url xxlib tom@lib.xxyy.edu.cn:git/hw.git
 \begin{frame}[fragile]{Git操作中特别指明目标仓库}
 Git操作中，带上远程仓库名
 
+\onslide<+->
 \begin{Verbatim}[frame=single,commandchars=\\\{\}]
 git push github
 git push github test_branch
 git fetch github
 git fetch github new_branch
+\end{Verbatim}
+
+\onslide<+->
+本地新建的分支，必需在git push命令中，特别指明，才能推送到远程仓库。
+
+\begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git push origin my_new_local_branch
+git push --tags
 \end{Verbatim}
 \end{frame}
 
@@ -136,7 +145,12 @@ git remote show origin
         \end{Verbatim}
         \item 本地分支/远程分支
         \item 工作分支/跟踪分支
-        \item 设置上游仓库与跟踪分支
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[<+->][fragile]{设定跟踪分支}
+    \begin{itemize}
+        \item 设定跟踪分支
 
         \begin{Verbatim}[frame=single,commandchars=\\\{\}]
 git clone    (will set up tracing branch automatically)
@@ -146,13 +160,110 @@ git branch --set-upstream l_br_name gitorious/master
 git checkout -b sf origin/serverfix
 git checkout -t origin/hack
         \end{Verbatim}
+        \item 了解分支跟踪情况
+
+        \begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git remote show origin  (or with -n option)
+git branch -avv
+git config --list
+cat .git/config
+        \end{Verbatim}
     \end{itemize}
 \end{frame}
 
-\begin{frame}[<+->][fragile]{平等}
-\onslide<+->
-理论上，没有那个仓库更高贵。
+\begin{frame}[<+->][fragile]{跟踪分支的意义}
+    \begin{itemize}
+        \item 跟踪分支是远程仓库的本地代理
+        \item 设定跟踪分支的目的是方便使用
+        \item 已设定：
 
+        \begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git push        (or with remote repository name)
+git pull        (or with remote repository name)
+        \end{Verbatim}
+        \item 未设定：
+
+        \begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git push origin master
+git fetch origin master
+git checkout master
+git merge origin/master
+        \end{Verbatim}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[<+->][fragile]{建立远程仓库}
+    \begin{itemize}
+        \item 位于服务器上的远程仓库设成Bare repository
+        \begin{Verbatim}[frame=single,commandchars=\\\{\}]
+git init --bare    (with or without a repos name)
+        \end{Verbatim}
+        \item 依惯例仓库的名字用\ .git 结尾
+        \item 使用 ssh 方式访问是最佳选择
+        \item 每个用户提供 ssh 公钥，放到服务器中
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[<+->][fragile]{密钥对制作与部署}
+在你的电脑上，产生密钥对
+
+        \begin{Verbatim}[frame=single,commandchars=\\\{\}]
+cd ~/.ssh
+# If id_rsa and id_rsa.pub have existed, backup them
+#   or using id_rsa.pub as public key
+ssh-keygen -t rsa -C "your_email@youremail.com"
+# Give passphrase or leave it empty
+# OK. Give id_rsa.pub to server administrator
+        \end{Verbatim}
+\end{frame}
+
+\begin{frame}[<+->][fragile]{Git服务器设定}
+    \begin{itemize}
+        \item 安装 ssh server
+        \item 安装 git
+        \item 建立一个项目用户比如 xuser，
+        该用户的缺省shell设为 /usr/bin/git-shell （安全考虑）
+        \item 以xuser身份建立项目的仓库 xprj.git ， 确保xuers对该目录的读写权
+        \item 添加授权访问用户的ssh pulic key
+        \begin{Verbatim}[frame=single,commandchars=\\\{\}]
+cat id_rsa.pub >> ~xuser/.ssh/authorized_keys
+        \end{Verbatim}
+        \item 在客户机上测试ssh服务
+        \begin{Verbatim}[frame=single,commandchars=\\\{\}]
+ssh -l xuser -T gitserver.example.com        
+        \end{Verbatim}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[<+->][fragile]{用ssh访问远程Git仓库的URL}
+    \begin{Verbatim}[frame=single,commandchars=\\\{\}]
+ssh://xuser@git.example.com/path/to/xprj.git
+ssh://xuser@git.example.com:305/path/to/xprj.git
+xuser@git.example.com:/path/to/xprj.git
+xuser@git.example.com:var/xprj.git
+    \end{Verbatim}
+
+    \bigskip
+    除ssh协议以外，Git还支持：
+    
+    本地目录路径、file、git、http、https、rsync等访问协议。
+\end{frame}
+
+%\begin{frame}[<+->][fragile]{多人多项目}
+%\end{frame}
+
+\begin{frame}[<+->][fragile]{仓库之间的主次}
 \onslide<+->
-事实上，人们会将某些仓库理解成“正宗的”
+理论上，Git是完全分布式的组织方式，
+技术上，没有哪个仓库更“正宗”。
+
+\bigskip
+\onslide<+->
+事实上，人们会将某个仓库理解成“中心”仓库。
+
+\bigskip
+\onslide<+->
+不同仓库中，每一个提交的时间戳，并不重要，
+重要的是其惟一的sha1名，以及它在提交
+历史中的位置。
 \end{frame}
